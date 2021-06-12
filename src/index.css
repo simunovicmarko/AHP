@@ -1,0 +1,13 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    background-color: #f2f2f2;
+}
+
+.cell {
+    min-width: 1cm;
+    /* border-width: 1px; */
+}
