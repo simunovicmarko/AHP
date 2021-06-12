@@ -74,9 +74,7 @@ export const ParamTables: FunctionComponent<Props> = ({
                 generateParametersRecursevly(child, newParam);
                 newParams.push(newParam);
             });
-            // console.log(newParam.name);
-            // param.childred.push(newParam);
-            // console.log(param.name,param.childred);
+
         }
         newParams.forEach((par) => {
             param.children.push(par);

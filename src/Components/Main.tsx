@@ -10,6 +10,7 @@ import { Alternative } from "../Classes/Alternative";
 import { Parameter } from "../Classes/Parameter";
 import { AltTables } from "./AltTables";
 import { FinalValues } from "./FinalValues";
+import { JsxElement } from "typescript";
 // import { AlternativeTable } from "./AlternativeTable";
 
 interface Props {}
@@ -68,14 +69,20 @@ export const Main: FunctionComponent<Props> = () => {
     ];
 
     const [table, setTable] = useState<boolean>(false);
-    const [DisplayFinalValues, setDisplayFinalValues] = useState(false);
     const [firstNode] = useState(new NodeObject(""));
     const [alternatives, setAlernatves] = useState<Array<Alternative>>([]);
     const [parameters, setParameters] = useState<Array<Parameter>>([]);
     const [RecursiveParameters, setRecursiveParameters] = useState<Parameter>(
         new Parameter()
     );
+    const [DisplayFinalValues, setDisplayFinalValues] = useState(false);
+
+    // let DisplayFinalValues = false;
+    // const setDisplayFinalValues = (val: boolean) => {
+    //     DisplayFinalValues = val;
+    // };
     const [drawAlts, setDrawAlts] = useState<any[]>([]);
+    const [drawParams, setDrawParams] = useState<any[]>([]);
 
     // const [firstNode] = useState(testNodeCars);
     // const [alternatives, setAlernatves] =
@@ -139,13 +146,50 @@ export const Main: FunctionComponent<Props> = () => {
         return arr;
     };
 
+    const returnParams = () => {
+        return [
+            <ParamTables
+                node={firstNode}
+                parameters={parameters}
+                setParameters={setParameters}
+                setRecursiveParamters={setRecursiveParameters}
+                recursiveParamters={RecursiveParameters}
+                alternatives={alternatives}
+            />,
+        ];
+    };
+
     useEffect(() => {
         if (parameters.length > 0) {
             setDrawAlts(
                 generateAltTablesRecursevly(alternatives, RecursiveParameters)
             );
         }
+        setDrawParams(returnParams());
     }, [alternatives, parameters]);
+
+    const drawFinal = (DisplayFinalValues: boolean) => {
+        if (DisplayFinalValues) {
+            setDrawFinalState([
+                <div>
+                    <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
+                        Tabela koristnosti
+                    </div>
+                    <div className="w-full flex justify-center">
+                        <FinalValues
+                            parameters={RecursiveParameters}
+                            alternatives={alternatives}
+                            firstNode={firstNode}
+                        />
+                    </div>
+                </div>,
+            ]);
+        }
+        return [];
+    };
+
+    const [drawFinalState, setDrawFinalState] =
+        useState<any[] | undefined>(undefined);
 
     return (
         <div className="Main flex flex-col items-center w-full">
@@ -162,14 +206,7 @@ export const Main: FunctionComponent<Props> = () => {
                     <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
                         Parametri
                     </div>
-                    <ParamTables
-                        node={firstNode}
-                        parameters={parameters}
-                        setParameters={setParameters}
-                        setRecursiveParamters={setRecursiveParameters}
-                        recursiveParamters={RecursiveParameters}
-                        alternatives={alternatives}
-                    />
+                    {drawParams}
                     {drawAlts.length > 0 && alternatives.length > 0 ? (
                         <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
                             Alternative
@@ -187,15 +224,16 @@ export const Main: FunctionComponent<Props> = () => {
                     {DisplayFinalValues ? (
                         <div>
                             <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
-                                Tabela koristnosti
-                            </div>
-                            <div className="w-full flex justify-center">
-                                <FinalValues
-                                    parameters={RecursiveParameters}
-                                    alternatives={alternatives}
-                                    firstNode={firstNode}
+                            Tabela koristnosti
+                        </div>
+                        <div className="flex justify-center">
+
+                            <FinalValues
+                                parameters={RecursiveParameters}
+                                firstNode={firstNode}
+                                alternatives={alternatives}
                                 />
-                            </div>
+                                </div>
                         </div>
                     ) : undefined}
                 </div>

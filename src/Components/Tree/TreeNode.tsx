@@ -46,7 +46,7 @@ export const TreeNode: FunctionComponent<Props> = ({
                                 classNameForLine={element.Id}
                                 key={element.Id}
                             />
-                            {classNameForLine?<LineTo from={classNameForLine} to={element.Id} fromAnchor="bottom center" toAnchor="top" borderColor="#4f4f4f" borderWidth={2} delay={50}/>:undefined}
+                            {classNameForLine?<LineTo from={classNameForLine} to={element.Id} fromAnchor="bottom center" toAnchor="top" borderColor="#4f4f4f" borderWidth={2} delay={50} className="overflow-hidden"/>:undefined}
                         </div>
                     ))}
                 </div>

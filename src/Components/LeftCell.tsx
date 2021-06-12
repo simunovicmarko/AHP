@@ -1,5 +1,5 @@
 // import { classnames } from "@material-ui/data-grid";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { CellValue } from "../Classes/CellValue";
 
 interface Props {
@@ -13,9 +13,9 @@ interface Props {
 export const LeftCell: FunctionComponent<Props> = ({
     value,
     className,
-    cellValueProp,
 }) => {
     // const [cellValue] = useState<any | undefined>(cellValueProp?.value);
+    const [CellValue, setCellValue] = useState(value)
 
     return (
         <div
@@ -23,7 +23,8 @@ export const LeftCell: FunctionComponent<Props> = ({
                 "border border-black p-2 w-24 h-10 cell overflow-hidden " +
                 className
             }>
-            {cellValueProp ? Math.round(cellValueProp.value * 100) / 100 : Number(value)?Math.round(value * 100) / 100:value}
+            {/* {console.log(value, value.length)} */}
+            {CellValue}
         </div>
     );
 };

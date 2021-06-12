@@ -5,6 +5,7 @@ import { Parameter } from "../Classes/Parameter";
 import { GetRowsFromTree } from "../Functions/GetRowFromTree";
 import { Cell } from "./Cell";
 import { LeftCell } from "./LeftCell";
+import uuid from 'uuid'
 
 interface Props {
     parameters: Parameter;
@@ -81,8 +82,8 @@ export const FinalValues: FunctionComponent<Props> = ({
         let temp = parameters.alternatives.map((alternative) => {
             return (
                 <div className="flex flex-col">
-                    <Cell value={alternative.name} className="bg-gray-300" />
-                    <Cell value={alternative.weight}/>
+                    <Cell value={alternative.name} className="bg-gray-300" key={uuid.v4()}/>
+                    <Cell value={alternative.weight} key={uuid.v4()}/>
                     {weightsForSpecificAlt(alternative, parameters)}
                 </div>
             );
@@ -102,13 +103,13 @@ export const FinalValues: FunctionComponent<Props> = ({
         
         for (let i = 0; i < param.children.length; i++) {
             let child = param.children[i];
-            arr.push(<Cell value={findAltAndGetItsValue(alternative, child.alternatives)}/>)
+            arr.push(<Cell value={findAltAndGetItsValue(alternative, child.alternatives)} key={uuid.v4()}/>)
             weightsForSpecificAlt(alternative, child, arr);
         }
         return arr;
     }
 
-    const drawParamWeights = (param:Parameter,arr: any[] = [<Cell value="Uteži" className="bg-gray-700 text-gray-100 font-bold"/>]) => {
+    const drawParamWeights = (param:Parameter,arr: any[] = [<Cell value="Uteži" className="bg-gray-700 text-gray-100 font-bold" key={uuid.v4()}/>]) => {
         arr.push(<Cell value={param.weight} className="bg-gray-300"/>)
         for (let i = 0; i < param.children.length; i++) {
             let child = param.children[i];
@@ -119,10 +120,10 @@ export const FinalValues: FunctionComponent<Props> = ({
 
     const drawRows = (firstNode: NodeObject) => {
         let arr:any[] = [];
-        arr.push(<Cell className="w-auto"/>);
+        arr.push(<Cell className="w-auto" key={uuid.v4()}/>);
         let indetedRows = GetRowsFromTree(firstNode);
         let rows = indetedRows.map((cell) => {
-            return <LeftCell value={cell.valueOf()} className="w-auto"/>;
+            return <LeftCell value={cell.valueOf()} key={uuid.v4()} className="w-auto font-bold"/>;
         });
 
         rows.forEach(element => {

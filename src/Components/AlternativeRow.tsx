@@ -25,7 +25,7 @@ export const AlternativeRow: FunctionComponent<Props> = ({
 
     return (
         <div className="bg-transparent flex justify-between mt-2">
-            <Cell value={alternative.name} className="items-center" />
+            <Cell value={alternative.name} className="items-center w-full mr-2" />
             <button
                 className="bg-red-500 rounded text-white pl-5 pr-5 text-lg"
                 onClick={removeAlternative}>

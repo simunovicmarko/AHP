@@ -281,14 +281,12 @@ export const SymmetricTable: FunctionComponent<Props> = ({
                 paramLocal.children[y - 1].weight = sum / yCells.length;
 
             if (firstParamForAlts) {
-                // console.log(items[0], items[y]);
                 searchForParamAndSetAlternatives(
                     firstParamForAlts,
                     items[0],
                     items[y],
                     sum / yCells.length
                 );
-                // console.log(firstParamForAlts);
             }
 
             let neki;
