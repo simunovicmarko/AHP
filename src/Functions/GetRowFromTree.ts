@@ -33,6 +33,5 @@ function GetValuesFromChildren(
         root.Children.map((element: NodeObject) =>
             GetRowsFromTree(element, Row, depth + 1)
         );
-        root.Value = root.Value;
     }
 }
