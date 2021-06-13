@@ -57,7 +57,7 @@ export const FinalChart: FunctionComponent<Props> = ({ alternatives }) => {
 		<YAxis />
 		<Tooltip />
 		<Legend />
-		<Bar dataKey="Koristnost" fill="#8884d8" />
+		<Bar dataKey="Koristnost" fill="#374151" />
 	</BarChart>
             </div>
         </div>
