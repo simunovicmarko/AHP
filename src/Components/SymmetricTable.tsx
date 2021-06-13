@@ -359,6 +359,7 @@ export const SymmetricTable: FunctionComponent<Props> = ({
 
     const copyAlternative = (alt: Alternative) => {
         let newAlt = new Alternative;
+        newAlt.id = alt.id;
         newAlt.name = alt.name;
         newAlt.weight = alt.weight;
         return newAlt;

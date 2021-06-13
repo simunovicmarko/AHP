@@ -69,8 +69,21 @@ export const Main: FunctionComponent<Props> = () => {
     ];
 
     const [table, setTable] = useState<boolean>(false);
-    const [firstNode] = useState(new NodeObject(""));
-    const [alternatives, setAlernatves] = useState<Array<Alternative>>([]);
+    // const [firstNode, setFirstNode] = useState(new NodeObject(""));
+    const [firstNode, setFirstNode] = useState(() => {
+        let lsItem = localStorage.getItem("firstNode");
+        if (lsItem !== null) {
+            let node = JSON.parse(lsItem);
+            return node;
+        } else return new NodeObject("");
+    });
+    const [alternatives, setAlernatves] = useState<Array<Alternative>>(() => {
+        let lsItem = localStorage.getItem("alternatives");
+        if (lsItem !== null) {
+            let alt = JSON.parse(lsItem);
+            return alt;
+        } else return []
+    });
     const [parameters, setParameters] = useState<Array<Parameter>>([]);
     const [RecursiveParameters, setRecursiveParameters] = useState<Parameter>(
         new Parameter()
@@ -191,15 +204,44 @@ export const Main: FunctionComponent<Props> = () => {
     const [drawFinalState, setDrawFinalState] =
         useState<any[] | undefined>(undefined);
 
+    window.addEventListener("beforeunload", (ev) => {
+        ev.preventDefault();
+        localStorage.setItem("firstNode", JSON.stringify(firstNode));
+        localStorage.setItem("alternatives", JSON.stringify(alternatives))
+    });
+
+    const [dis, setdis] = useState(false);
+
+    // useEffect(() => {
+    //     let lsItem = localStorage.getItem("firstNode");
+    //     if (lsItem !== null) {
+    //         let node = JSON.parse(lsItem);
+    //         return node;
+    //     } else return new NodeObject("");
+    // }, []);
+
+    // useEffect(() => {
+    //     setdis(!dis);
+    // }, [firstNode]);
+
+    // const [drawTree, setDrawTree] = useState<any>(<Tree node={firstNode}/>);
+    // const drawTreeFunction = (node:NodeObject) => {
+    //     return <Tree node={node}/>
+    // }
+
     return (
         <div className="Main flex flex-col items-center w-full">
-            <Tree node={firstNode} />
+            {/* <div className="flex justify-end w-full pr-10 mt-5">
+                <Button text="Počisti drevo" onClick={()=>{setFirstNode(new NodeObject(""))}} />
+            </div> */}
+            {dis ? <Tree node={firstNode} /> : <Tree node={firstNode} />}
             <div className="flex justify-end w-full pr-10">
                 <Button text="Osveži tabele" onClick={generateTable} />
             </div>
             <AlternativesComponent
                 alternatives={alternatives}
                 setAlernatves={setAlernatves}
+                parameter={RecursiveParameters}
             />
             {table ? (
                 <div>
@@ -224,16 +266,15 @@ export const Main: FunctionComponent<Props> = () => {
                     {DisplayFinalValues ? (
                         <div>
                             <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
-                            Tabela koristnosti
-                        </div>
-                        <div className="flex justify-center">
-
-                            <FinalValues
-                                parameters={RecursiveParameters}
-                                firstNode={firstNode}
-                                alternatives={alternatives}
+                                Tabela koristnosti
+                            </div>
+                            <div className="flex justify-center">
+                                <FinalValues
+                                    parameters={RecursiveParameters}
+                                    firstNode={firstNode}
+                                    alternatives={alternatives}
                                 />
-                                </div>
+                            </div>
                         </div>
                     ) : undefined}
                 </div>

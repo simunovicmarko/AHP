@@ -1,14 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
 import { Alternative } from "../Classes/Alternative";
+import { Parameter } from "../Classes/Parameter";
 import { AddInput } from "./AddInput";
 import { AlternativeRow } from "./AlternativeRow";
 
 interface Props {
     alternatives: Alternative[];
     setAlernatves: React.Dispatch<React.SetStateAction<Alternative[]>>;
+    parameter:Parameter;
 }
 
-export const AlternativesComponent: FunctionComponent<Props> = ({alternatives, setAlernatves}) => {
+export const AlternativesComponent: FunctionComponent<Props> = ({alternatives, setAlernatves, parameter}) => {
     // const [alternatives, setAlernatves] = useState<Array<Alternative>>([]);
     const [inputValue, setInputValue] = useState<string>("");
 
@@ -29,6 +31,7 @@ export const AlternativesComponent: FunctionComponent<Props> = ({alternatives, s
                             alternative={element}
                             setAlternatives={setAlernatves}
                             alternatives={alternatives}
+                            parameter={parameter}
                         />
                     );
                 })}

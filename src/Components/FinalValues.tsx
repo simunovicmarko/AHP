@@ -26,7 +26,7 @@ export const FinalValues: FunctionComponent<Props> = ({
             //Najdem pravo alternativo
             let alt: Alternative | undefined;
             for (let i = 0; i < parameter.alternatives.length; i++) {
-                if (parameter.alternatives[i].name === alternative.name)
+                if (parameter.alternatives[i].id === alternative.id)
                     alt = parameter.alternatives[i];
             }
             //nastavim vrednost * utež parametra
@@ -46,7 +46,7 @@ export const FinalValues: FunctionComponent<Props> = ({
             let final = sum * parameter.weight;
 
             for (let i = 0; i < parameter.alternatives.length; i++) {
-                if (parameter.alternatives[i].name === alternative.name)
+                if (parameter.alternatives[i].id === alternative.id)
                     parameter.alternatives[i].weight = final;
             }
             //Vrnem staršu
@@ -95,7 +95,7 @@ export const FinalValues: FunctionComponent<Props> = ({
     const weightsForSpecificAlt = (alternative:Alternative, param: Parameter, arr:any[] = []) => {
         const findAltAndGetItsValue = (alternative:Alternative, alternatives:Alternative[]) => {
             for (let i = 0; i < alternatives.length; i++) {
-                if(alternative.name === alternatives[i].name) return alternatives[i].weight;                
+                if(alternative.id === alternatives[i].id) return alternatives[i].weight;                
                 // if(alternative.name === alternatives[i].name) return alternatives[i].weight;                
             }
             return 0;

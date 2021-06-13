@@ -3,6 +3,7 @@ import LineTo from "react-lineto";
 import { INodeObject, NodeObject } from "../../Classes/NodeObject";
 import { AddTreeNode } from "./AddTreeNode";
 import { RemoveTreeNode } from "./RemoveTreeNode";
+import uuid from 'uuid'
 // import uuid from 'uuid';
 
 interface Props {
@@ -46,7 +47,7 @@ export const TreeNode: FunctionComponent<Props> = ({
                                 classNameForLine={element.Id}
                                 key={element.Id}
                             />
-                            {classNameForLine?<LineTo from={classNameForLine} to={element.Id} fromAnchor="bottom center" toAnchor="top" borderColor="#4f4f4f" borderWidth={2} delay={50} className="overflow-hidden"/>:undefined}
+                            {classNameForLine?<LineTo from={classNameForLine} to={element.Id} fromAnchor="bottom center" toAnchor="top" borderColor="#4f4f4f" borderWidth={2} delay={50} className="overflow-hidden" key={uuid.v4()}/>:undefined}
                         </div>
                     ))}
                 </div>
