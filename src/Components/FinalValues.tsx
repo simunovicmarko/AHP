@@ -6,6 +6,7 @@ import { GetRowsFromTree } from "../Functions/GetRowFromTree";
 import { Cell } from "./Cell";
 import { LeftCell } from "./LeftCell";
 import uuid from 'uuid'
+import { FinalChart } from "./FinalChart";
 
 interface Props {
     parameters: Parameter;
@@ -75,7 +76,8 @@ export const FinalValues: FunctionComponent<Props> = ({
         arr.push(drawRows(firstNode));
         arr.push(drawAltsWithFinalValues(alternatives))
         arr.push(drawParamWeights(parameters))
-        return [<div className="m-5 flex">{arr}</div>];
+        // arr.push()
+        return [<div className="m-5 flex">{arr}</div>, <FinalChart alternatives={alternatives}/>];
     };
 
     const drawAltsWithFinalValues = (alternatives: Alternative[]) => {
@@ -132,5 +134,5 @@ export const FinalValues: FunctionComponent<Props> = ({
         return <div className="flex flex-col">{arr}</div>;
     };
 
-    return <div className="flex m-5">{draw}</div>;
+    return <div className="flex m-5 flex-col">{draw}</div>;
 };
