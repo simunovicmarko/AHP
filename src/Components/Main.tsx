@@ -10,90 +10,91 @@ import { Alternative } from "../Classes/Alternative";
 import { Parameter } from "../Classes/Parameter";
 import { AltTables } from "./AltTables";
 import { FinalValues } from "./FinalValues";
-import { JsxElement } from "typescript";
 // import { AlternativeTable } from "./AlternativeTable";
 
 interface Props {}
 
 export const Main: FunctionComponent<Props> = () => {
-    let testNode = new NodeObject("1");
-    testNode.Children = [
-        new NodeObject("2", [new NodeObject("21"), new NodeObject("22")]),
-        new NodeObject("3", [
-            new NodeObject("31"),
-            new NodeObject("32"),
-            new NodeObject("33"),
-            new NodeObject("34", [
-                new NodeObject("341"),
-                new NodeObject("342"),
-            ]),
-        ]),
-        // new NodeObject("neki3"),
-    ];
+    //For testing
+    // let testNode = new NodeObject("1");
+    // testNode.Children = [
+    //     new NodeObject("2", [new NodeObject("21"), new NodeObject("22")]),
+    //     new NodeObject("3", [
+    //         new NodeObject("31"),
+    //         new NodeObject("32"),
+    //         new NodeObject("33"),
+    //         new NodeObject("34", [
+    //             new NodeObject("341"),
+    //             new NodeObject("342"),
+    //         ]),
+    //     ]),
+    //     // new NodeObject("neki3"),
+    // ];
 
-    let testNodeCars = new NodeObject("Ocena avtomobila");
-    testNodeCars.Children = [
-        new NodeObject("Cena"),
-        new NodeObject("Zmogljivost", [
-            new NodeObject("0 - 100 km/h"),
-            new NodeObject("Končna hitrost"),
-            new NodeObject("Navor"),
-        ]),
-        new NodeObject("Motor", [
-            new NodeObject("Velikost"),
-            new NodeObject("Poraba"),
-            new NodeObject("Moč"),
-        ]),
-        new NodeObject("Prostornost", [
-            new NodeObject("Prostornina"),
-            new NodeObject("Velikost prtljažnika"),
-        ]),
-        new NodeObject("Oprema", [
-            new NodeObject("Varnostni sistemi"),
-            new NodeObject("Luksuzna oprema"),
-        ]),
-    ];
+    // let testNodeCars = new NodeObject("Ocena avtomobila");
+    // testNodeCars.Children = [
+    //     new NodeObject("Cena"),
+    //     new NodeObject("Zmogljivost", [
+    //         new NodeObject("0 - 100 km/h"),
+    //         new NodeObject("Končna hitrost"),
+    //         new NodeObject("Navor"),
+    //     ]),
+    //     new NodeObject("Motor", [
+    //         new NodeObject("Velikost"),
+    //         new NodeObject("Poraba"),
+    //         new NodeObject("Moč"),
+    //     ]),
+    //     new NodeObject("Prostornost", [
+    //         new NodeObject("Prostornina"),
+    //         new NodeObject("Velikost prtljažnika"),
+    //     ]),
+    //     new NodeObject("Oprema", [
+    //         new NodeObject("Varnostni sistemi"),
+    //         new NodeObject("Luksuzna oprema"),
+    //     ]),
+    // ];
 
-    let testAlts: Array<Alternative> = [
-        new Alternative("Prva"),
-        new Alternative("druga"),
-        new Alternative("tretja"),
-        new Alternative("četrta"),
-    ];
-    let testAltsCars: Array<Alternative> = [
-        new Alternative("Mercedes"),
-        new Alternative("Tushek"),
-        new Alternative("Ferrari"),
-        new Alternative("Pagani"),
-        new Alternative("Rimac"),
-    ];
+    // let testAlts: Array<Alternative> = [
+    //     new Alternative("Prva"),
+    //     new Alternative("druga"),
+    //     new Alternative("tretja"),
+    //     new Alternative("četrta"),
+    // ];
+    // let testAltsCars: Array<Alternative> = [
+    //     new Alternative("Mercedes"),
+    //     new Alternative("Tushek"),
+    //     new Alternative("Ferrari"),
+    //     new Alternative("Pagani"),
+    //     new Alternative("Rimac"),
+    // ];
 
-    const [table, setTable] = useState<boolean>(false);
-    // const [firstNode, setFirstNode] = useState(new NodeObject(""));
-    const [firstNode, setFirstNode] = useState(() => {
+    const chekForNodeOrSetItToNewOne = () => {
         let lsItem = localStorage.getItem("firstNode");
         if (lsItem !== null) {
             let node = JSON.parse(lsItem);
             return node;
         } else return new NodeObject("");
-    });
-    const [alternatives, setAlernatves] = useState<Array<Alternative>>(() => {
-        let lsItem = localStorage.getItem("alternatives");
-        if (lsItem !== null) {
-            let alt = JSON.parse(lsItem);
-            return alt;
-        } else return [];
-    });
+    };
+    const chekForAltOrSetItToNewOne = () => {
+        
+            let lsItem = localStorage.getItem("alternatives");
+            if (lsItem !== null) {
+                let alt = JSON.parse(lsItem);
+                return alt;
+            } else return [];
+        
+    };
+
+    const [table, setTable] = useState<boolean>(false);
+    // const [firstNode, setFirstNode] = useState(new NodeObject(""));
+    const [firstNode, setFirstNode] = useState(chekForNodeOrSetItToNewOne());
+    const [alternatives, setAlernatves] = useState<Array<Alternative>>(chekForAltOrSetItToNewOne());
     const [parameters, setParameters] = useState<Array<Parameter>>([]);
     const [RecursiveParameters, setRecursiveParameters] = useState<Parameter>(
         new Parameter()
     );
     const [DisplayFinalValues, setDisplayFinalValues] = useState(false);
 
-    // let DisplayFinalValues = false;
-    // const setDisplayFinalValues = (val: boolean) => {
-    //     DisplayFinalValues = val;
-    // };
     const [drawAlts, setDrawAlts] = useState<any[]>([]);
     const [drawParams, setDrawParams] = useState<any[]>([]);
 
@@ -111,33 +112,32 @@ export const Main: FunctionComponent<Props> = () => {
         } else setTable(false);
     };
 
-    let usedAltParameters: Parameter[] = [];
 
-    const generateAltTables = (
-        alts: Alternative[],
-        parameters: Parameter[],
-        arr: any[] = []
-    ) => {
-        parameters.forEach((parameter) => {
-            let tempParam = usedAltParameters.find(
-                (par) => par.name === parameter.name
-            );
-            usedAltParameters.push(parameter);
-            if (tempParam === undefined)
-                arr.push(
-                    <AltTables
-                        alts={alts}
-                        parameter={parameter}
-                        firstParam={RecursiveParameters}
-                    />
-                );
-            parameter.children.forEach(() => {
-                generateAltTables(alts, parameter.children, arr);
-            });
-        });
+    // const generateAltTables = (
+    //     alts: Alternative[],
+    //     parameters: Parameter[],
+    //     arr: any[] = []
+    // ) => {
+    //     parameters.forEach((parameter) => {
+    //         let tempParam = usedAltParameters.find(
+    //             (par) => par.name === parameter.name
+    //         );
+    //         usedAltParameters.push(parameter);
+    //         if (tempParam === undefined)
+    //             arr.push(
+    //                 <AltTables
+    //                     alts={alts}
+    //                     parameter={parameter}
+    //                     firstParam={RecursiveParameters}
+    //                 />
+    //             );
+    //         parameter.children.forEach(() => {
+    //             generateAltTables(alts, parameter.children, arr);
+    //         });
+    //     });
 
-        return arr;
-    };
+    //     return arr;
+    // };
     const generateAltTablesRecursevly = (
         alts: Alternative[],
         parameter: Parameter,
@@ -159,20 +159,21 @@ export const Main: FunctionComponent<Props> = () => {
         return arr;
     };
 
-    const returnParams = () => {
-        return [
-            <ParamTables
-                node={firstNode}
-                parameters={parameters}
-                setParameters={setParameters}
-                setRecursiveParamters={setRecursiveParameters}
-                recursiveParamters={RecursiveParameters}
-                alternatives={alternatives}
-            />,
-        ];
-    };
-
+    
     useEffect(() => {
+        const returnParams = () => {
+            return [
+                <ParamTables
+                    node={firstNode}
+                    parameters={parameters}
+                    setParameters={setParameters}
+                    setRecursiveParamters={setRecursiveParameters}
+                    recursiveParamters={RecursiveParameters}
+                    alternatives={alternatives}
+                />,
+            ];
+        };
+        
         if (parameters.length > 0) {
             setDrawAlts(
                 generateAltTablesRecursevly(alternatives, RecursiveParameters)
@@ -181,37 +182,40 @@ export const Main: FunctionComponent<Props> = () => {
         setDrawParams(returnParams());
     }, [alternatives, parameters]);
 
-    const drawFinal = (DisplayFinalValues: boolean) => {
-        if (DisplayFinalValues) {
-            setDrawFinalState([
-                <div>
-                    <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
-                        Tabela koristnosti
-                    </div>
-                    <div className="w-full flex justify-center">
-                        <FinalValues
-                            parameters={RecursiveParameters}
-                            alternatives={alternatives}
-                            firstNode={firstNode}
-                        />
-                    </div>
-                </div>,
-            ]);
-        }
-        return [];
-    };
+    // const drawFinal = (DisplayFinalValues: boolean) => {
+    //     if (DisplayFinalValues) {
+    //         setDrawFinalState([
+    //             <div>
+    //                 <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
+    //                     Tabela koristnosti
+    //                 </div>
+    //                 <div className="w-full flex justify-center">
+    //                     <FinalValues
+    //                         parameters={RecursiveParameters}
+    //                         alternatives={alternatives}
+    //                         firstNode={firstNode}
+    //                     />
+    //                 </div>
+    //             </div>,
+    //         ]);
+    //     }
+    //     return [];
+    // };
 
-    const [drawFinalState, setDrawFinalState] =
-        useState<any[] | undefined>(undefined);
+    
 
     let reset = false;
     window.addEventListener("beforeunload", (ev) => {
         ev.preventDefault();
-        if (!reset) localStorage.setItem("firstNode", JSON.stringify(firstNode));
-        else localStorage.setItem("firstNode", JSON.stringify(new NodeObject("")))
+        if (!reset)
+            localStorage.setItem("firstNode", JSON.stringify(firstNode));
+        else
+            localStorage.setItem(
+                "firstNode",
+                JSON.stringify(new NodeObject(""))
+            );
         localStorage.setItem("alternatives", JSON.stringify(alternatives));
     });
-    const [dis, setdis] = useState(false);
 
     // useEffect(() => {
     //     let lsItem = localStorage.getItem("firstNode");
@@ -246,7 +250,7 @@ export const Main: FunctionComponent<Props> = () => {
                     }}
                 />
             </div> */}
-            {dis ? <Tree node={firstNode} /> : <Tree node={firstNode} />}
+            <Tree node={firstNode} />
             <div className="flex justify-end w-full pr-10">
                 <Button
                     text="Počisti drevo"
@@ -255,7 +259,6 @@ export const Main: FunctionComponent<Props> = () => {
                     }}
                 />
                 <div className="ml-4">
-
                     <Button text="Osveži tabele" onClick={generateTable} />
                 </div>
             </div>

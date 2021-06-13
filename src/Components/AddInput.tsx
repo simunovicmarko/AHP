@@ -24,7 +24,7 @@ export const AddInput: FunctionComponent<Props> = ({
     return (
         <div className="bg-gray-400 flex justify-between px-4 py-2 ">
             <input
-                className="bg-white px-4 py-2 m-2 rounded-lg w-1/3"
+                className="bg-white px-4 py-2 m-2 rounded-lg w-1/3 focus:outline-none"
                 value={inputValue}
                 onChange={handleChange}
             />

@@ -289,10 +289,9 @@ export const SymmetricTable: FunctionComponent<Props> = ({
                 );
             }
 
-            let neki;
             if (firstParam) {
                 if (paramLocal) {
-                    neki = searchForRecursiveParam(
+                    searchForRecursiveParam(
                         firstParam,
                         paramLocal.children[y - 1].name,
                         sum / yCells.length
@@ -341,13 +340,13 @@ export const SymmetricTable: FunctionComponent<Props> = ({
         }
     };
 
-    const copyArray = <T extends unknown>(arr: Array<T>) => {
-        let newArr: Array<T> = [];
-        for (let i = 0; i < arr.length; i++) {
-            newArr.push(arr[i]);
-        }
-        return newArr;
-    };
+    // const copyArray = <T extends unknown>(arr: Array<T>) => {
+    //     let newArr: Array<T> = [];
+    //     for (let i = 0; i < arr.length; i++) {
+    //         newArr.push(arr[i]);
+    //     }
+    //     return newArr;
+    // };
 
     const copyAlternativesArray = (arr: Array<Alternative>) => {
         let newArr: Array<Alternative> = [];
@@ -358,7 +357,7 @@ export const SymmetricTable: FunctionComponent<Props> = ({
     }
 
     const copyAlternative = (alt: Alternative) => {
-        let newAlt = new Alternative;
+        let newAlt = new Alternative();
         newAlt.id = alt.id;
         newAlt.name = alt.name;
         newAlt.weight = alt.weight;

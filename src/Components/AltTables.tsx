@@ -12,7 +12,7 @@ interface Props {
 
 export const AltTables: FunctionComponent<Props> = ({ alts, parameter, firstParam }) => {
     const makeTables = (alts: Array<Alternative>, parameter: Parameter) => {
-        let arr: any[] = [];
+        // let arr: any[] = [];
 
         const getItems = () => {
             let arr = [parameter.name];

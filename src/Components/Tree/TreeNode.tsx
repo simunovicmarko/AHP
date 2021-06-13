@@ -36,7 +36,7 @@ export const TreeNode: FunctionComponent<Props> = ({
     const drawSubNodes = (node: NodeObject) => {
         if (subNodes && value.length > 0) {
             return (
-                <div className={`flex`}>
+                <div className={`flex justify-between`}>
                     {subNodes.map((element: INodeObject) => (
                         <div>
                             <TreeNode
@@ -85,7 +85,7 @@ export const TreeNode: FunctionComponent<Props> = ({
                 <input
                     value={String(value)}
                     onChange={handleChange}
-                    className={"rounded-full bg-gray-500 p-3 w-24 flex justify-center text-white text-center font-bold text-lg " + classNameForLine}
+                    className={"rounded-full focus:bg-gray-700 focus:outline-none hover:bg-gray-600 bg-gray-500 p-3 w-24 flex justify-center text-white text-center font-bold text-lg " + classNameForLine}
                 />
                 <div>
                     <AddTreeNode onClick={addSubNode} />

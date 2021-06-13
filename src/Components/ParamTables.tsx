@@ -25,7 +25,7 @@ export const ParamTables: FunctionComponent<Props> = ({
     setParameters,
     setRecursiveParamters,
     recursiveParamters: firstParam,
-    alternatives
+    alternatives,
 }) => {
     const [items, setItems] = useState<Array<Array<string>>>([]);
 
@@ -39,48 +39,47 @@ export const ParamTables: FunctionComponent<Props> = ({
         return arr;
     };
 
-    const generateParameters = (arr: Array<String>) => {
-        let params: Array<Parameter> = [];
-        for (let i = 0; i < arr.length; i++) {
-            let newParam = new Parameter(arr[i][0].valueOf());
-            for (let j = 1; j < arr[i].length; j++) {
-                let innerNewParameter = new Parameter(arr[i][j]);
-                newParam.children.push(innerNewParameter);
-            }
-            newParam.alternatives = alternatives;
-            params.push(newParam);
-        }
+    // const generateParameters = (arr: Array<String>) => {
+    //     let params: Array<Parameter> = [];
+    //     for (let i = 0; i < arr.length; i++) {
+    //         let newParam = new Parameter(arr[i][0].valueOf());
+    //         for (let j = 1; j < arr[i].length; j++) {
+    //             let innerNewParameter = new Parameter(arr[i][j]);
+    //             newParam.children.push(innerNewParameter);
+    //         }
+    //         newParam.alternatives = alternatives;
+    //         params.push(newParam);
+    //     }
 
-        setParameters(params);
-        return params;
-    };
+    //     setParameters(params);
+    //     return params;
+    // };
 
-    let first = true;
-    const generateParametersRecursevly = (
-        node: NodeObject,
-        param: Parameter = new Parameter()
-    ) => {
-        if (first) {
-            param.weight = 1;
-            first = false;
-        }
-        param.name = node.Value.valueOf();
-        param.alternatives = alternatives;
+    // let first = true;
+    // const generateParametersRecursevly = (
+    //     node: NodeObject,
+    //     param: Parameter = new Parameter()
+    // ) => {
+    //     if (first) {
+    //         param.weight = 1;
+    //         first = false;
+    //     }
+    //     param.name = node.Value.valueOf();
+    //     param.alternatives = alternatives;
 
-        let newParams: Parameter[] = [];
-        if (node.Children) {
-            node.Children.forEach((child) => {
-                let newParam = new Parameter();
-                generateParametersRecursevly(child, newParam);
-                newParams.push(newParam);
-            });
-
-        }
-        newParams.forEach((par) => {
-            param.children.push(par);
-        });
-        return param;
-    };
+    //     let newParams: Parameter[] = [];
+    //     if (node.Children) {
+    //         node.Children.forEach((child) => {
+    //             let newParam = new Parameter();
+    //             generateParametersRecursevly(child, newParam);
+    //             newParams.push(newParam);
+    //         });
+    //     }
+    //     newParams.forEach((par) => {
+    //         param.children.push(par);
+    //     });
+    //     return param;
+    // };
 
     useEffect(() => {
         const getChildrenForEachChild = (
@@ -101,12 +100,54 @@ export const ParamTables: FunctionComponent<Props> = ({
             }
             return arr;
         };
+
+        const generateParameters = (arr: Array<String>) => {
+            let params: Array<Parameter> = [];
+            for (let i = 0; i < arr.length; i++) {
+                let newParam = new Parameter(arr[i][0].valueOf());
+                for (let j = 1; j < arr[i].length; j++) {
+                    let innerNewParameter = new Parameter(arr[i][j]);
+                    newParam.children.push(innerNewParameter);
+                }
+                newParam.alternatives = alternatives;
+                params.push(newParam);
+            }
+    
+            setParameters(params);
+            return params;
+        };
+
+        let first = true;
+        const generateParametersRecursevly = (
+            node: NodeObject,
+            param: Parameter = new Parameter()
+        ) => {
+            if (first) {
+                param.weight = 1;
+                first = false;
+            }
+            param.name = node.Value.valueOf();
+            param.alternatives = alternatives;
+
+            let newParams: Parameter[] = [];
+            if (node.Children) {
+                node.Children.forEach((child) => {
+                    let newParam = new Parameter();
+                    generateParametersRecursevly(child, newParam);
+                    newParams.push(newParam);
+                });
+            }
+            newParams.forEach((par) => {
+                param.children.push(par);
+            });
+            return param;
+        };
+
         let temp = getChildrenForEachChild(node);
         generateParameters(temp);
-        // console.log(generateParametersRecursevly(node));
         setRecursiveParamters(generateParametersRecursevly(node));
         setItems(temp);
-    }, [node, setItems]);
+    }, [node, setItems, setRecursiveParamters]);
 
     const drawSymmetricTables = (items: Array<Array<string>>) => {
         return items.map((el: Array<string>) => {

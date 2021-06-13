@@ -40,7 +40,7 @@ export const AlternativeRow: FunctionComponent<Props> = ({
                 className="items-center w-full mr-2"
             />
             <button
-                className="bg-red-500 rounded text-white pl-5 pr-5 text-lg"
+                className="bg-red-500 hover:bg-red-600 rounded text-white px-5 font-bold text-3xl text-center"
                 onClick={removeAlternative}>
                 -
             </button>
