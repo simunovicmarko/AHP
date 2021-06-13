@@ -82,7 +82,7 @@ export const Main: FunctionComponent<Props> = () => {
         if (lsItem !== null) {
             let alt = JSON.parse(lsItem);
             return alt;
-        } else return []
+        } else return [];
     });
     const [parameters, setParameters] = useState<Array<Parameter>>([]);
     const [RecursiveParameters, setRecursiveParameters] = useState<Parameter>(
@@ -204,12 +204,13 @@ export const Main: FunctionComponent<Props> = () => {
     const [drawFinalState, setDrawFinalState] =
         useState<any[] | undefined>(undefined);
 
+    let reset = false;
     window.addEventListener("beforeunload", (ev) => {
         ev.preventDefault();
-        localStorage.setItem("firstNode", JSON.stringify(firstNode));
-        localStorage.setItem("alternatives", JSON.stringify(alternatives))
+        if (!reset) localStorage.setItem("firstNode", JSON.stringify(firstNode));
+        else localStorage.setItem("firstNode", JSON.stringify(new NodeObject("")))
+        localStorage.setItem("alternatives", JSON.stringify(alternatives));
     });
-
     const [dis, setdis] = useState(false);
 
     // useEffect(() => {
@@ -229,14 +230,34 @@ export const Main: FunctionComponent<Props> = () => {
     //     return <Tree node={node}/>
     // }
 
+    const removeAndReload = () => {
+        setFirstNode(new NodeObject(""));
+        reset = true;
+        window.location.reload();
+    };
+
     return (
         <div className="Main flex flex-col items-center w-full">
             {/* <div className="flex justify-end w-full pr-10 mt-5">
-                <Button text="Počisti drevo" onClick={()=>{setFirstNode(new NodeObject(""))}} />
+                <Button
+                    text="Počisti drevo"
+                    onClick={() => {
+                        removeAndReload();
+                    }}
+                />
             </div> */}
             {dis ? <Tree node={firstNode} /> : <Tree node={firstNode} />}
             <div className="flex justify-end w-full pr-10">
-                <Button text="Osveži tabele" onClick={generateTable} />
+                <Button
+                    text="Počisti drevo"
+                    onClick={() => {
+                        removeAndReload();
+                    }}
+                />
+                <div className="ml-4">
+
+                    <Button text="Osveži tabele" onClick={generateTable} />
+                </div>
             </div>
             <AlternativesComponent
                 alternatives={alternatives}
