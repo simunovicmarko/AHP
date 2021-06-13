@@ -48,6 +48,7 @@ export const AlternativesComponent: FunctionComponent<Props> = ({alternatives, s
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 onClick={addAlternative}
+                ClearAlternativesClick={()=>{setAlernatves([])}}
             />
 
             {drawAlternatives(alternatives)}
