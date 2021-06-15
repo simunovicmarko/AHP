@@ -66,7 +66,7 @@ export const TreeNode: FunctionComponent<Props> = ({
         if (subNodes && value.length > 0) setSubNodes([...subNodes, newNode]);
         else if (value.length > 0) setSubNodes([newNode]);
 
-        if (node.Children) node.Children.push(newNode);
+        if (node.Children && value.length) node.Children.push(newNode);
         else node.Children = [newNode];
         setRedraw(!redraw)
     };
