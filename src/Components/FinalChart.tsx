@@ -6,7 +6,15 @@ import React, { FunctionComponent } from "react";
 // import CartesianGrid from 'recharts.recharts.cartesian-grid';
 // import Tooltip from 'recharts.recharts.tooltip';
 // import Legend from 'recharts.recharts.legend';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+} from "recharts";
 import { Alternative } from "../Classes/Alternative";
 interface Props {
     alternatives: Alternative[];
@@ -31,34 +39,45 @@ export const FinalChart: FunctionComponent<Props> = ({ alternatives }) => {
         return series;
     };
 
-    const series = [{
-        name: 'John',
-        data: [1,2]
-      }, {
-        name: 'Jane',
-        data: [5]
-      }, {
-        name: 'James',
-        data: [13]
-      }];
+    const series = [
+        {
+            name: "John",
+            data: [1, 2],
+        },
+        {
+            name: "Jane",
+            data: [5],
+        },
+        {
+            name: "James",
+            data: [13],
+        },
+    ];
     return (
-        <div className="m-5 w-4/5">
-            <div style={{ fontFamily: "sans-serif", fontSize: "0.8em" }}>
-            <BarChart
-		width={500}
-		height={300}
-		data={generateSeries(alternatives)}
-		margin={{
-			top: 5, right: 30, left: 20, bottom: 5,
-		}}
-	>
-		<CartesianGrid strokeDasharray="3 3" />
-		<XAxis dataKey="name" />
-		<YAxis />
-		<Tooltip />
-		<Legend />
-		<Bar dataKey="Koristnost" fill="#374151" />
-	</BarChart>
+        <div className="">
+            {/* <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
+                Graf
+            </div> */}
+            <div className="m-5 w-4/5 flex justify-center">
+                <div style={{ fontFamily: "sans-serif", fontSize: "0.8em" }}>
+                    <BarChart
+                        width={800}
+                        height={300}
+                        data={generateSeries(alternatives)}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Koristnost" fill="#374151" />
+                    </BarChart>
+                </div>
             </div>
         </div>
     );

@@ -14,6 +14,8 @@ interface Props {
         React.SetStateAction<NodeObject[] | undefined>
     >;
     classNameForLine?: string;
+    redraw:boolean;
+    setRedraw:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TreeNode: FunctionComponent<Props> = ({
@@ -22,6 +24,8 @@ export const TreeNode: FunctionComponent<Props> = ({
     SetParentSubnodes,
     parentNode,
     classNameForLine,
+    redraw,
+    setRedraw
 }) => {
     const [value, setValue] = useState<String>(node.Value);
     const [subNodes, setSubNodes] = useState<Array<NodeObject> | undefined>(
@@ -46,6 +50,7 @@ export const TreeNode: FunctionComponent<Props> = ({
                                 SetParentSubnodes={setSubNodes}
                                 classNameForLine={element.Id}
                                 key={element.Id}
+                                redraw={redraw} setRedraw={setRedraw}
                             />
                             {classNameForLine?<LineTo from={classNameForLine} to={element.Id} fromAnchor="bottom center" toAnchor="top" borderColor="#4f4f4f" borderWidth={2} delay={50} className="overflow-hidden" key={uuid.v4()}/>:undefined}
                         </div>
@@ -63,6 +68,7 @@ export const TreeNode: FunctionComponent<Props> = ({
 
         if (node.Children) node.Children.push(newNode);
         else node.Children = [newNode];
+        setRedraw(!redraw)
     };
 
     const removeSubNode = () => {
@@ -76,6 +82,7 @@ export const TreeNode: FunctionComponent<Props> = ({
             SetParentSubnodes(temp);
 
             if (parentNode) parentNode.Children = temp;
+            setRedraw(!redraw)
         }
     };
 

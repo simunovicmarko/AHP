@@ -134,5 +134,5 @@ export const FinalValues: FunctionComponent<Props> = ({
         return <div className="flex flex-col">{arr}</div>;
     };
 
-    return <div className="flex m-5 flex-col">{draw}</div>;
+    return <div className="flex m-5 flex-col items-center">{draw}</div>;
 };

@@ -10,6 +10,7 @@ import { Alternative } from "../Classes/Alternative";
 import { Parameter } from "../Classes/Parameter";
 import { AltTables } from "./AltTables";
 import { FinalValues } from "./FinalValues";
+import uuid from 'uuid'
 // import { AlternativeTable } from "./AlternativeTable";
 
 interface Props {}
@@ -76,33 +77,42 @@ export const Main: FunctionComponent<Props> = () => {
         } else return new NodeObject("");
     };
     const chekForAltOrSetItToNewOne = () => {
-        
-            let lsItem = localStorage.getItem("alternatives");
-            if (lsItem !== null) {
-                let alt = JSON.parse(lsItem);
-                return alt;
-            } else return [];
-        
+        let lsItem = localStorage.getItem("alternatives");
+        if (lsItem !== null) {
+            let alt = JSON.parse(lsItem);
+            return alt;
+        } else return [];
     };
 
     const [table, setTable] = useState<boolean>(false);
-    // const [firstNode, setFirstNode] = useState(new NodeObject(""));
     const [firstNode, setFirstNode] = useState(chekForNodeOrSetItToNewOne());
-    const [alternatives, setAlernatves] = useState<Array<Alternative>>(chekForAltOrSetItToNewOne());
+    const [alternatives, setAlernatves] = useState<Array<Alternative>>(
+        chekForAltOrSetItToNewOne()
+    );
     const [parameters, setParameters] = useState<Array<Parameter>>([]);
     const [RecursiveParameters, setRecursiveParameters] = useState<Parameter>(
         new Parameter()
     );
     const [DisplayFinalValues, setDisplayFinalValues] = useState(false);
 
+    const [redrawTree, setRedrawTree] = useState(false)
+    const [showTree, setshowTree] = useState(<Tree node={firstNode} redraw={redrawTree} setRedraw={setRedrawTree}/>)
+
+
     const [drawAlts, setDrawAlts] = useState<any[]>([]);
     const [drawParams, setDrawParams] = useState<any[]>([]);
+
+
+    useEffect(() => {
+        setshowTree(<Tree node={firstNode} key={uuid.v4()} redraw={redrawTree} setRedraw={setRedrawTree}/>)
+    }, [redrawTree])
 
     // const [firstNode] = useState(testNodeCars);
     // const [alternatives, setAlernatves] =
     //     useState<Array<Alternative>>(testAltsCars);
 
     const generateTable = () => {
+        if (table) setDisplayFinalValues(false);
         if (
             firstNode.Value.length > 0 &&
             firstNode.Children &&
@@ -111,7 +121,6 @@ export const Main: FunctionComponent<Props> = () => {
             setTable(!table);
         } else setTable(false);
     };
-
 
     // const generateAltTables = (
     //     alts: Alternative[],
@@ -159,7 +168,6 @@ export const Main: FunctionComponent<Props> = () => {
         return arr;
     };
 
-    
     useEffect(() => {
         const returnParams = () => {
             return [
@@ -173,7 +181,7 @@ export const Main: FunctionComponent<Props> = () => {
                 />,
             ];
         };
-        
+
         if (parameters.length > 0) {
             setDrawAlts(
                 generateAltTablesRecursevly(alternatives, RecursiveParameters)
@@ -201,8 +209,6 @@ export const Main: FunctionComponent<Props> = () => {
     //     }
     //     return [];
     // };
-
-    
 
     let reset = false;
     window.addEventListener("beforeunload", (ev) => {
@@ -242,15 +248,7 @@ export const Main: FunctionComponent<Props> = () => {
 
     return (
         <div className="Main flex flex-col items-center w-full">
-            {/* <div className="flex justify-end w-full pr-10 mt-5">
-                <Button
-                    text="Počisti drevo"
-                    onClick={() => {
-                        removeAndReload();
-                    }}
-                />
-            </div> */}
-            <Tree node={firstNode} />
+            {showTree}
             <div className="flex justify-end w-full pr-10">
                 <Button
                     text="Počisti drevo"
@@ -292,7 +290,7 @@ export const Main: FunctionComponent<Props> = () => {
                             <div className="text-xl font-bold p-5 mb-4 w-full bg-gray-700 text-white">
                                 Tabela koristnosti
                             </div>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center w-full">
                                 <FinalValues
                                     parameters={RecursiveParameters}
                                     firstNode={firstNode}
